@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.4" type="plugin" group="system" method="upgrade">
+    <name>plg_system_whykikipagebuilder</name>
+    <author>Whykiki Christian Schuelling</author>
+    <creationDate>05 October 2018</creationDate>
+    <copyright>Copyright (c) 2009 - 2018 Whykiki</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <authorEmail>info@whykiki.de</authorEmail>
+    <authorUrl>whykiki.de</authorUrl>
+    <version>0.0.1</version>
+    <description>PLG_SYSTEM_WHYKIKIPAGEBUILDER_XML_DESCRIPTION</description>
+
+    <files>
+        <folder>assets</folder>
+        <folder>fields</folder>
+        <folder>forms</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
+        <folder>sql</folder>
+        <folder>snippets</folder>
+        <file plugin="whykikipagebuilder">whykikipagebuilder.php</file>
+    </files>
+
+    <languages>
+        <language tag="en-GB">en-GB.plg_system_whykikipagebuilder.ini</language>
+        <language tag="en-GB">en-GB.plg_system_whykikipagebuilder.sys.ini</language>
+        <language tag="de-DE">en-GB.plg_system_whykikipagebuilder.ini</language>
+        <language tag="de-DE">en-GB.plg_system_whykikipagebuilder.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+
+            <fieldset name="basic">
+                <field name="video_folder" type="text"
+                       default="/images/video/"
+                       description="PLG_WHYPB_VIDEO_FOLDER_DESC"
+                       label="PLG_WHYPB_VIDEO_FOLDER_LABEL"
+                       size="5"
+                />
+
+                <field name="audio_folder" type="text"
+                       default="/images/audio/"
+                       description="PLG_WHYPB_AUDIO_FOLDER_DESC"
+                       label="PLG_WHYPB_AUDIO_FOLDER_LABEL"
+                       size="5"
+                />
+
+                <field name="templatestyle" type="list" default="" label="Select an option" description="">
+                    <option value="0">Dark</option>
+                    <option value="1">Light</option>
+                </field>
+
+            </fieldset>
+
+        </fields>
+    </config>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+    <updateservers>
+        <server type="extension" priority="1" name="PLG_CONTENT_WHYKIKIPAGEBUILDER">https://raw.githubusercontent.com/nielsnuebel/kickpb/master/update.xml</server>
+    </updateservers>
+</extension>
