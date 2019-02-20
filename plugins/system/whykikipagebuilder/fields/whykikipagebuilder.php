@@ -210,6 +210,7 @@ class JFormFieldWhykikipagebuilder extends JFormField
 		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/js-beautify-1.7.5/js/lib/beautify-html.js');
 		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/ace/ace.js', 'module');
 		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/custom.js');
+
 		//var_dump($doc);die;
 
 	}
