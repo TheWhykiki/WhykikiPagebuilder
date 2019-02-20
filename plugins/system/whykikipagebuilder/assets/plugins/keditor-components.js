@@ -12,14 +12,14 @@
 
 const pagebuilderParams = Joomla.getOptions('pagebuilderParams');
 var txtPhotoSettings = pagebuilderParams['photoSettings'];
-var txtChangePhoto = pagebuilderParams['changePhoto'];
 var txtDownloadSettings = pagebuilderParams['downloadSettings'];
 var txtSetDownload = pagebuilderParams['downloadSetDownload'];
 var txtDownload = pagebuilderParams['downloadTxtDownload'];
+var txtButton = pagebuilderParams['buttonTxtSettings'];
+var txtSetButton = pagebuilderParams['buttonSetButton'];
+var txtChangePhoto = pagebuilderParams['changePhoto'];
 var txtAudioSettings = pagebuilderParams['photoSettings'];
 var txtAudioFile = pagebuilderParams['changeAudio'];
-var txtClose = pagebuilderParams['close'];
-
 var txtAutoplay = pagebuilderParams['autoplay'];
 var txtControls = pagebuilderParams['controls'];
 var txtWidth = pagebuilderParams['width'];
@@ -773,6 +773,72 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
 
         showSettingForm: function (form, component, keditor) {
             flog('showSettingForm "download" component', component);
+
+        }
+    };
+
+})(jQuery);
+
+/***************************************************************************************************/
+/* Link Button */
+/***************************************************************************************************/
+
+(function ($) {
+
+    var KEditor = $.keditor;
+    var flog = KEditor.log;
+
+    KEditor.components['link'] = {
+        init: function (contentArea, container, component, keditor) {
+            flog('init "link" component', component);
+
+            var componentContent = component.children('.keditor-component-content');
+
+        },
+
+        settingEnabled: true,
+        settingTitle: txtButton,
+
+        initSettingForm: function (form, keditor) {
+            flog('initSettingForm "link" component');
+
+            var self = this;
+            var options = keditor.options;
+            $('.formSlider').remove();
+            form.append(
+                '<form class="form-horizontal">' +
+                '   <div class="form-group">' +
+                '       <div class="col-sm-12">' +
+                '           <button type="button" class="btn btn-block btn-primary" id="link-edit">' + txtSetButton + '</button>' +
+                '           <input type="file" style="display: none" />' +
+                '       </div>' +
+                '   </div>' +
+                '   <div class="form-group">' +
+                '       <label for="photo-style" class="col-sm-12">' + txtButton + '</label>' +
+                '       <div class="col-sm-12">' +
+                '             <label>Link Text</label><input type="text" id="linkText">' +
+                '             <label>Link Href</label><input type="text" id="linkHref">' +
+                '       </div>' +
+                '   </div>' +
+                '</form>'
+            );
+
+            var linkEdit = form.find('#link-edit');
+            linkEdit.on('click', function (e) {
+                var linkText = $('#linkText').val();
+                var linkHref = $('#linkHref').val();
+                var html = '<a href="' + linkHref + '" class="btn btn-primary linkButton" target="_blank">' + linkText + '</a>';
+                $('.link-panel').html(html);
+                $(document).trigger('contentchange');
+
+
+                e.preventDefault();
+            });
+
+        },
+
+        showSettingForm: function (form, component, keditor) {
+            flog('showSettingForm "link" component', component);
 
         }
     };

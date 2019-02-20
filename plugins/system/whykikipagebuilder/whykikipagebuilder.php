@@ -73,6 +73,7 @@ class plgSystemWhykikipagebuilder extends JPlugin
 			'downloadSetDownload' =>	JText::_('PLG_SYSTEM_WHYPB_SETDOWNLOAD'),
 			'downloadTxtDownload' => JText::_('PLG_SYSTEM_WHYPB_TXTDOWNLOAD'),
 			'buttonTxtSettings' => JText::_('PLG_SYSTEM_WHYPB_BUTTONSETTINGS'),
+			'buttonSetButton' => JText::_('PLG_SYSTEM_WHYPB_SETBUTTON'),
 			'close' => JText::_('PLG_SYSTEM_WHYPB_CLOSE'),
 			'audioSettings' =>	JText::_('PLG_SYSTEM_WHYPB_AUDIOSETTINGS'),
 			'changePhoto' => JText::_('PLG_SYSTEM_WHYPB_CHANGE_PHOTO'),
