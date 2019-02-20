@@ -852,3 +852,23 @@ label {
   margin-bottom: 5px;
   font-size: 17px;
 }
+
+@media (min-width: 576px){
+  .modal-dialog {
+    max-width: 100%;
+    margin: 0px auto;
+    height: 500px;
+    margin-top: 400px;
+  }
+}
+
+.downloadButton{
+  position: absolute !important;
+  top: 0px !important;
+  right: 0px !important;
+  right: 0px !important;
+}
+
+.carousel-indicators {
+  display:none;
+}

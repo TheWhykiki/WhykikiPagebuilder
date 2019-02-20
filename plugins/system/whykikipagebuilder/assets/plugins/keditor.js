@@ -1100,6 +1100,8 @@
         self.initContainer(contentArea, container);
     };
 
+
+
     KEditor.prototype.initContainer = function (contentArea, container) {
         var self = this;
 
@@ -1168,18 +1170,19 @@
                 var i;
                 for(i = 0; i < counter; i++){
 
-                    activeVar = '';
+                    activeVar = 'active';
 
                     if(i > 0){
                         activeVar = '';
                     }
 
                     randomNumber = Number.random(111111111,199999999);
-                    carItem +=           '<div class="carousel-item keditor-container-content ui-sortable" data-type="container-content" id="keditor-container-content-' + randomNumber + '">' +
+                    carItem +=           '<div class="carousel-item ' + activeVar + ' keditor-container-content ui-sortable" data-type="container-content" id="keditor-container-content-' + randomNumber + '">' +
                         '                       <section data-type="component-photo" class="keditor-component existing-component keditor-initialized-component" id="keditor-component-' + randomNumber + '">' +
                         '                           <section class="keditor-ui keditor-component-content" id="keditor-component-content-' + randomNumber + '">' +
                         '                               <div class="photo-panel">' +
-                        '                                   <img src="../plugins/system/whypagebuilder/snippets/img/somewhere_bangladesh.jpg" width="100%" height="" style="display: inline-block;">' +
+                        '                                    <a href="../plugins/system/whykikipagebuilder/snippets/img/somewhere_bangladesh.jpg" data-lightbox="image" class="imageModal">Modal</a>' +
+                        '                                   <img src="../plugins/system/whykikipagebuilder/snippets/img/somewhere_bangladesh.jpg" width="100%" height="" style="display: inline-block;">' +
                         '                               </div>' +
                         '                           </section>' +
                         '                       </section>' +
@@ -1189,6 +1192,46 @@
                 }
                 return carItem;
             }
+
+            /**********************************************************************************************************************/
+            /* Generate indicators */
+            /**********************************************************************************************************************/
+
+            function generateIndicators(){
+
+                var images = $('#carousel1 .carousel-item').find('img');
+
+                var imageCounter = images.length;
+
+                var indicators = '';
+
+                var activeVar = 'active';
+
+
+                for(i = 0; i < imageCounter; i++) {
+                    if(i > 0){
+                        activeVar = '';
+                    }
+                    var imagePath = images[i].currentSrc;
+                    console.log(imagePath)
+                    var dotPosition = imagePath.lastIndexOf(".");
+                    var imageFileName = imagePath.substring(0, dotPosition);
+                    var imageFileType = imagePath.substring(imagePath.length - 3, imagePath.length);
+                    var newImageName = imageFileName + '-tn.' + imageFileType;
+
+                    indicators += '<li class="' + activeVar + '" data-slide-to="' + i + '" data-target="#carousel1">' +
+                        '<img alt="" title="" src="' + newImageName + '">' +
+                        '</li>'
+                }
+
+                console.log('Tester' + images);
+                console.log('Tester' + indicators);
+
+                $('#carousel1 .carousel-indicators').html(indicators);
+                alert('Thumbnails added!');
+
+            }
+
 
             /**********************************************************************************************************************/
             /* When multitype slider */
@@ -1220,6 +1263,7 @@
                         '           <label>Slides hinzufügen</label>' +
                         '           <input type="text" class="form-control slidesAddCount1" />' +
                         '           <button class="btn btn-primary addSlider1">Slides hinzufügen</button>' +
+                        '           <button class="btn btn-primry addThumbs1">Thumbnails hinzufügen</button>' +
                         '           <p>Nach dem Einstellen einer neuen Anzahl, bitte den Beitrag einmal speichern. <br> Wenn der Beitrag nicht gespeicchert wird, können die Bilder im Slider nicht verändert werden.</p>' +
                         '       </div>' +
                         '   </div>' +
@@ -1228,9 +1272,12 @@
                     $(document).trigger('sliderinit');
                 });
 
-            /**********************************************************************************************************************/
-            /* Slider initiated
-            /**********************************************************************************************************************/
+
+
+
+                /**********************************************************************************************************************/
+                /* Slider initiated
+                /**********************************************************************************************************************/
 
                 $(document).one('sliderinit', function (e) {
                     e.preventDefault();
@@ -1251,6 +1298,11 @@
 
                     });
 
+                    $('.addThumbs1').on("click", function (e) {
+                        e.preventDefault();
+                        generateIndicators();
+                    });
+
                     $('.saveSlider1').on('click', function () {
 
                         sliderCounter = $('.slidesCount1').val();
@@ -1261,18 +1313,13 @@
                         $('#' + sliderID1).html('<div id="carousel1" class="carousel slide" data-ride="carousel">' +
                             '                <div class="carousel-inner">' +
                             generateCarouselItem(sliderCounter) +
-
-                            '                <a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">' +
-                            '                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
-                            '                    <span class="sr-only">Previous</span>' +
-                            '                </a>' +
-                            '                <a class="carousel-control-next" href="#carousel1" role="button" data-slide="next">' +
-                            '                    <span class="carousel-control-next-icon" aria-hidden="true"></span>' +
-                            '                    <span class="sr-only">Next</span>' +
-                            '                </a>' +
-
-                            '            </div>' +
                             '        </div>' +
+                            '<ul class="carousel-indicators">' +
+                            '        </ul>' +
+                            '<div class="carousel-controls">' +
+                            '   <a class="carousel-control-prev" href="#carousel1" data-slide="prev"><i class="fa fa-angle-double-left fa-lg"></i></a>' +
+                            '   <a class="carousel-control-next" href="#carousel1" data-slide="next"><i class="fa fa-angle-double-right fa-lg"></i></a>' +
+                            '</div>' +
                             '    </div>');
                         itemsGen = generateCarouselItem(sliderCounter);
                         console.log(itemsGen);

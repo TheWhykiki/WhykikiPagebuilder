@@ -136,7 +136,7 @@ $(function () {
 
 
     $('.keditor-ui button').on('click',function(e){
-            e.preventDefault();
+        e.preventDefault();
     });
 
     $('.keditor-ui a').on('click',function(e){
@@ -166,9 +166,32 @@ $(function () {
     // Trigger changes in Keditor and set codeeditor
     /*****************************************************************************************************************/
 
+    /*
+        $(document).on('contentchange', function (e) {
+            e.preventDefault();
+            var editorContent = $('#content-area').keditor('getContent');
+            var withoutSection = $('#content-area').keditor('getContentWithoutSection');
 
-    $(document).on('contentchange', function (e) {
-        e.preventDefault();
+            $('#jform_whykikipagebuilder').val(editorContent);
+            $('#jform_withoutsections').val(withoutSection);
+            $('#debugcode').val(withoutSection);
+            $('#cleaned').html(withoutSection);
+            codeEditor.getSession().setValue(editorContent);
+            console.log('changed');
+            //alert('changed');
+
+            //$("keditor-toolbar").remove
+        });
+
+    */
+
+    /*****************************************************************************************************************/
+    // Write history
+    /*****************************************************************************************************************/
+
+    $('#content-area').focusout(function () {
+        console.log('blurred keditor');
+        $(document).trigger('historyWrite');
         var editorContent = $('#content-area').keditor('getContent');
         var withoutSection = $('#content-area').keditor('getContentWithoutSection');
 
@@ -178,24 +201,11 @@ $(function () {
         $('#cleaned').html(withoutSection);
         codeEditor.getSession().setValue(editorContent);
         console.log('changed');
-
-        //$("keditor-toolbar").remove
-    });
-
-
-
-    /*****************************************************************************************************************/
-    // Write history
-    /*****************************************************************************************************************/
-
-    $('#content-area').focusout(function () {
-        console.log('blurred keditor');
-        $(document).trigger('historyWrite');
     });
 
     codeEditor.on('blur',function(){
         console.log('blurred code');
-        $(document).trigger('historyWrite');
+        //$(document).trigger('historyWrite');
     });
 
 

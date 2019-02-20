@@ -365,6 +365,7 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
 
 
 
+
 /***************************************************************************************************/
 /* Photo */
 /***************************************************************************************************/
@@ -372,24 +373,24 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
 (function ($) {
     var KEditor = $.keditor;
     var flog = KEditor.log;
-    
+
     KEditor.components['photo'] = {
         init: function (contentArea, container, component, keditor) {
             flog('init "photo" component', component);
-            
+
             var componentContent = component.children('.keditor-component-content');
             var img = componentContent.find('img');
-            
+
             img.css('display', 'inline-block');
         },
-        
+
         settingEnabled: true,
-        
+
         settingTitle: txtPhotoSettings,
-        
+
         initSettingForm: function (form, keditor) {
             flog('initSettingForm "photo" component');
-            
+
             var self = this;
             var options = keditor.options;
             $('.formSlider').remove();
@@ -405,10 +406,8 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
                 '       <label for="photo-style" class="col-sm-12">Style</label>' +
                 '       <div class="col-sm-12">' +
                 '           <select id="photo-style" class="form-control">' +
-                '               <option value="">None</option>' +
-                '               <option value="img-rounded">Rounded</option>' +
-                '               <option value="img-circle">Circle</option>' +
-                '               <option value="img-thumbnail">Thumbnail</option>' +
+                '               <option value="">Non22e</option>' +
+                '               <option value="autoWidth">Autowidth</option>' +
                 '           </select>' +
                 '       </div>' +
                 '   </div>' +
@@ -468,7 +467,26 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
                     //
                     testbutton.on('click', function () {
                         var editorImage = keditor.getSettingComponent().find('img');
+
+
+                        // Add responsive images
+                        //**********************
+
+                        var dotPosition = imagePath.indexOf(".");
+                        var imageFileName = imagePath.substring(0, dotPosition);
+                        var imageFileType = imagePath.substring(imagePath.length - 3, imagePath.length);
+
+                        // scset auskommentiert weil Krampe zu kleine Bilder hat
+
+                        //var srcSet = imageFileName + '-xs.' + imageFileType +' 300w, ../' +  imageFileName + '-sm.' + imageFileType +' 768w, ../' +  imageFileName + '-md.' + imageFileType +' 1024w, ../' +  imageFileName + '-lg.' + imageFileType +' 1200w';
+                        var srcSet = imageFileName + '-xs.' + imageFileType +' 300w, ../' +  imageFileName + '-sm.' + imageFileType +' 768w, ../' +  imageFileName + '.' + imageFileType +' 1024w, ../' +  imageFileName + '.' + imageFileType +' 1200w';
+                        var modalLink = keditor.getSettingComponent().find('a');
+
+                        //console.log('Test' + kiktester[0]);
+                        modalLink.attr('href', imagePath);
+                        console.log()
                         editorImage.attr('src','../' + imagePath);
+                        editorImage.attr('srcset',srcSet);
 
                         e.preventDefault();
                         $("#myModal").modal('hide');
@@ -490,36 +508,37 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
                 var panel = keditor.getSettingComponent().find('.photo-panel');
                 panel.css('text-align', this.value);
             });
-            
+
             var inputResponsive = form.find('#photo-responsive');
             inputResponsive.on('click', function () {
                 keditor.getSettingComponent().find('img')[this.checked ? 'addClass' : 'removeClass']('img-responsive');
             });
-            
+
             var cbbStyle = form.find('#photo-style');
             cbbStyle.on('change', function () {
                 var img = keditor.getSettingComponent().find('img');
                 var val = this.value;
-                
+
                 img.removeClass('img-rounded img-circle img-thumbnail');
                 if (val) {
                     img.addClass(val);
+                    img.attr('srcset','');
                 }
             });
-            
+
             var inputWidth = form.find('#photo-width');
             var inputHeight = form.find('#photo-height');
             inputWidth.on('change', function () {
                 var img = keditor.getSettingComponent().find('img');
                 var newWidth = +this.value;
                 var newHeight = Math.round(newWidth / self.ratio);
-                
+
                 if (newWidth <= 0) {
                     newWidth = self.width;
                     newHeight = self.height;
                     this.value = newWidth;
                 }
-                
+
                 img.css({
                     'width': newWidth,
                     'height': newHeight
@@ -530,13 +549,13 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
                 var img = keditor.getSettingComponent().find('img');
                 var newHeight = +this.value;
                 var newWidth = Math.round(newHeight * self.ratio);
-                
+
                 if (newHeight <= 0) {
                     newWidth = self.width;
                     newHeight = self.height;
                     this.value = newHeight;
                 }
-                
+
                 img.css({
                     'height': newHeight,
                     'width': newWidth
@@ -544,25 +563,25 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
                 inputWidth.val(newWidth);
             });
         },
-        
+
         showSettingForm: function (form, component, keditor) {
             flog('showSettingForm "photo" component', component);
-            
+
             var self = this;
             var inputAlign = form.find('#photo-align');
             var inputResponsive = form.find('#photo-responsive');
             var inputWidth = form.find('#photo-width');
             var inputHeight = form.find('#photo-height');
             var cbbStyle = form.find('#photo-style');
-            
+
             var panel = component.find('.photo-panel');
             var img = panel.find('img');
-            
+
             var algin = panel.css('text-align');
             if (algin !== 'right' || algin !== 'center') {
                 algin = 'left';
             }
-            
+
             if (img.hasClass('img-rounded')) {
                 cbbStyle.val('img-rounded');
             } else if (img.hasClass('img-circle')) {
@@ -572,12 +591,12 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
             } else {
                 cbbStyle.val('');
             }
-            
+
             inputAlign.val(algin);
             inputResponsive.prop('checked', img.hasClass('img-responsive'));
             inputWidth.val(img.width());
             inputHeight.val(img.height());
-            
+
             $('<img />').attr('src', img.attr('src')).load(function () {
                 self.ratio = this.width / this.height;
                 self.width = this.width;
@@ -585,7 +604,249 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
             });
         }
     };
-    
+
+})(jQuery);
+
+/***************************************************************************************************/
+/* Slider Photo */
+/***************************************************************************************************/
+
+(function ($) {
+    var KEditor = $.keditor;
+    var flog = KEditor.log;
+
+    KEditor.components['sliderphoto'] = {
+        init: function (contentArea, container, component, keditor) {
+            flog('init "photo" component', component);
+
+            var componentContent = component.children('.keditor-component-content');
+            var img = componentContent.find('img');
+
+            img.css('display', 'inline-block');
+        },
+
+        settingEnabled: true,
+
+        settingTitle: txtPhotoSettings,
+
+        initSettingForm: function (form, keditor) {
+            flog('initSettingForm "photo" component');
+            //alert('slider');
+
+            var self = this;
+            var options = keditor.options;
+            $('.formSlider').remove();
+            form.append(
+                '<form class="form-horizontal">' +
+                '   <div class="form-group">' +
+                '       <div class="col-sm-12">' +
+                '           <button type="button" class="btn btn-block btn-primary" id="photo-edit">' + txtChangePhoto + '</button>' +
+                '           <input type="file" style="display: none" />' +
+                '       </div>' +
+                '   </div>' +
+                '   <div class="form-group">' +
+                '       <label for="photo-style" class="col-sm-12">Style</label>' +
+                '       <div class="col-sm-12">' +
+                '           <select id="photo-style" class="form-control">' +
+                '               <option value="">None2</option>' +
+                '           </select>' +
+                '       </div>' +
+                '   </div>' +
+                '</form>'
+            );
+
+            var modal = '<div class="modal fade" id="myModal" role="dialog">' +
+                '    <div class="modal-dialog">' +
+                '      <div class="modal-content">' +
+                '        <div class="modal-body">' +
+                '          <p><iframe id="mediaManagerIframe" src="index.php?option=com_media&view=images&tmpl=component&e_name=imageurl&return_url=1"></iframe></p>' +
+                '        </div> ' +
+                '      </div> ' +
+                '       ' +
+                '    </div> ' +
+                '  </div> ' +
+                '   ' +
+                '</div>'
+            var photoEdit = form.find('#photo-edit');
+            var fileInput = photoEdit.next();
+            photoEdit.on('click', function (e) {
+
+
+                // Add Joomla Media Manager
+                /**********************************/
+
+
+                $('body').append(modal);
+                $("#myModal").modal();
+                $('iframe').addClass('testIframe');
+
+                // Get the iframe contents
+                var imagePath;
+                $("#mediaManagerIframe").load(function(){
+
+                    // Get the input URL where image path is set
+
+                    var inputURL = $("#mediaManagerIframe").contents().find("body").find("#f_url");
+                    $("#mediaManagerIframe").contents().find("body").find(".button-save-selected").css('display','none');
+                    $("#mediaManagerIframe").contents().find("body").find(".button-cancel").css('display','none');
+                    $("#mediaManagerIframe").contents().find("body").find(".pull-right").append('<button class="btn btn-primary testbutton">Foto einsetzen</button>');
+                    var testbutton = $("#mediaManagerIframe").contents().find("body").find(".testbutton");
+
+                    function watchTextbox() {
+
+                        var txtInput = inputURL;
+                        var lastValue = txtInput.data('lastValue');
+                        var currentValue = txtInput.val();
+                        if (lastValue != currentValue) {
+                            console.log('Value changed from ' + lastValue + ' to ' + currentValue);
+                            txtInput.data('lastValue', currentValue);
+                            imagePath = currentValue;
+                        }
+                    }
+                    setInterval(watchTextbox, 100);
+
+                    //
+                    testbutton.on('click', function () {
+                        var editorImage = keditor.getSettingComponent().find('img');
+
+
+                        // Add responsive images
+                        //**********************
+
+                        var dotPosition = imagePath.indexOf(".");
+                        var imageFileName = imagePath.substring(0, dotPosition);
+                        var imageFileType = imagePath.substring(imagePath.length - 3, imagePath.length);
+
+                        // scset auskommentiert weil Krampe zu kleine Bilder hat
+
+                        //var srcSet = imageFileName + '-xs.' + imageFileType +' 300w, ../' +  imageFileName + '-sm.' + imageFileType +' 768w, ../' +  imageFileName + '-md.' + imageFileType +' 1024w, ../' +  imageFileName + '-lg.' + imageFileType +' 1200w';
+                        var srcSet = imageFileName + '-xs.' + imageFileType +' 300w, ../' +  imageFileName + '-sm.' + imageFileType +' 768w, ../' +  imageFileName + '.' + imageFileType +' 1024w, ../' +  imageFileName + '.' + imageFileType +' 1200w';
+                        var modalLink = keditor.getSettingComponent().find('a');
+
+                        //console.log('Test' + kiktester[0]);
+                        modalLink.attr('href', imagePath);
+                        console.log()
+                        editorImage.attr('src','../' + imagePath);
+                        editorImage.attr('srcset',srcSet);
+
+
+                        e.preventDefault();
+                        $("#myModal").modal('hide');
+                        $(".modal-backdrop").remove();
+                        $("#myModal").remove();
+                        $("body").removeClass('modal-open');
+                        console.log(editorImage);
+                        $(document).trigger('contentchange');
+                    });
+
+                });
+
+                e.preventDefault();
+
+            });
+
+            var inputAlign = form.find('#photo-align');
+            inputAlign.on('change', function () {
+                var panel = keditor.getSettingComponent().find('.photo-panel');
+                //panel.css('text-align', this.value);
+                panel.css('width',this.value);
+            });
+
+            var inputResponsive = form.find('#photo-responsive');
+            inputResponsive.on('click', function () {
+                keditor.getSettingComponent().find('img')[this.checked ? 'addClass' : 'removeClass']('img-responsive');
+            });
+
+            var cbbStyle = form.find('#photo-style');
+            cbbStyle.on('change', function () {
+                var img = keditor.getSettingComponent().find('img');
+                var val = this.value;
+
+                img.removeClass('img-rounded img-circle img-thumbnail');
+                if (val) {
+                    img.addClass(val);
+                }
+            });
+
+            var inputWidth = form.find('#photo-width');
+            var inputHeight = form.find('#photo-height');
+            inputWidth.on('change', function () {
+                var img = keditor.getSettingComponent().find('img');
+                var newWidth = +this.value;
+                var newHeight = Math.round(newWidth / self.ratio);
+
+                if (newWidth <= 0) {
+                    newWidth = self.width;
+                    newHeight = self.height;
+                    this.value = newWidth;
+                }
+
+                img.css({
+                    'width': newWidth,
+                    'height': newHeight
+                });
+                inputHeight.val(newHeight);
+            });
+            inputHeight.on('change', function () {
+                var img = keditor.getSettingComponent().find('img');
+                var newHeight = +this.value;
+                var newWidth = Math.round(newHeight * self.ratio);
+
+                if (newHeight <= 0) {
+                    newWidth = self.width;
+                    newHeight = self.height;
+                    this.value = newHeight;
+                }
+
+                img.css({
+                    'height': newHeight,
+                    'width': newWidth
+                });
+                inputWidth.val(newWidth);
+            });
+        },
+
+        showSettingForm: function (form, component, keditor) {
+            flog('showSettingForm "photo" component', component);
+
+            var self = this;
+            var inputAlign = form.find('#photo-align');
+            var inputResponsive = form.find('#photo-responsive');
+            var inputWidth = form.find('#photo-width');
+            var inputHeight = form.find('#photo-height');
+            var cbbStyle = form.find('#photo-style');
+
+            var panel = component.find('.photo-panel');
+            var img = panel.find('img');
+
+            var algin = panel.css('text-align');
+            if (algin !== 'right' || algin !== 'center') {
+                algin = 'left';
+            }
+
+            if (img.hasClass('img-rounded')) {
+                cbbStyle.val('img-rounded');
+            } else if (img.hasClass('img-circle')) {
+                cbbStyle.val('img-circle');
+            } else if (img.hasClass('img-thumbnail')) {
+                cbbStyle.val('img-thumbnail');
+            } else {
+                cbbStyle.val('');
+            }
+
+            inputAlign.val(algin);
+            inputResponsive.prop('checked', img.hasClass('img-responsive'));
+            inputWidth.val(img.width());
+            inputHeight.val(img.height());
+
+            $('<img />').attr('src', img.attr('src')).load(function () {
+                self.ratio = this.width / this.height;
+                self.width = this.width;
+                self.height = this.height;
+            });
+        }
+    };
+
 })(jQuery);
 
 

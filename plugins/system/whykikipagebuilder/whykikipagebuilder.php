@@ -226,8 +226,10 @@ class plgSystemWhykikipagebuilder extends JPlugin
 	public function onContentBeforeDisplay($context, &$item, &$params, $page = 0)
 	{
 		$doc = JFactory::getDocument();
-		unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery.min.js']);
-		unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery-noconflict.js']);
+		//unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery.min.js']);
+		//unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery-noconflict.js']);
+		//unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery-migrate.min.js']);
+
 		if (empty($item->id))
 		{
 			return $item;
@@ -257,14 +259,21 @@ class plgSystemWhykikipagebuilder extends JPlugin
 
 	public function onBeforeCompileHead()
 	{
+		$doc = JFactory::getDocument();
+
 		if ($this->app->input->get('pagebuilder', false, 'INT'))
 		{
-			$doc = JFactory::getDocument();
 			unset($doc->_scripts[JURI::root(true) . '/administrator/templates/isis/js/template.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap.min.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap-tooltip-extended.min.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/jui/css/bootstrap-tooltip-extended.css']);
+			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
 
-			//unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap.min.js']);
-			//unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap-tooltip-extended.min.js']);
 		}
+
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/plugins/lightbox/css/lightbox.css');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/lightbox/js/lightbox.js');
 	}
 
 
