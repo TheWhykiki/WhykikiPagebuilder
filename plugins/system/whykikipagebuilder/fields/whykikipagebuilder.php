@@ -84,7 +84,7 @@ class JFormFieldWhykikipagebuilder extends JFormField
 		$str[] =' 		<div class="card cardSettings">';
 		$str[] ='   		<div class="card-header" id="headingCodeEditor">';
 		$str[] ='     			<h5 class="mb-0">';
-		$str[] ='      				 <button class="btn btnCollapse" data-toggle="collapse" data-target="#collapseCodeEditor" aria-expanded="true" aria-controls="collapseCodeEditor">';
+		$str[] ='      				 <button class="btn btnCollapse" data-toggle="collapse" data-target="#collapseCodeEditor" aria-expanded="true" aria-controls="collapse">';
 		$str[] ='		                 <i class=" fa fas fa-laptop-code"></i> Code Editor';
 		$str[] ='					</button>';
 		$str[] ='     			</h5>';
@@ -99,7 +99,7 @@ class JFormFieldWhykikipagebuilder extends JFormField
 		$str[] =' 		<div class="card cardSettings">';
 		$str[] ='   		<div class="card-header" id="headingDebugBar">';
 		$str[] ='    	 		<h5 class="mb-0">';
-		$str[] ='       			<button class="btn btnCollapse" data-toggle="collapse" data-target="#collapseDebugBar" aria-expanded="false" aria-controls="collapseDebugBar">';
+		$str[] ='       			<button class="btn btnCollapse" data-toggle="collapse" data-target="#collapseDebugBar" aria-expanded="false" aria-controls="collapse">';
 		$str[] ='                       <i class="fas fa-project-diagram"></i> Debug Bar';
 		$str[] ='       			</button>';
 		$str[] ='     			</h5>';
@@ -154,6 +154,7 @@ class JFormFieldWhykikipagebuilder extends JFormField
 
 
 		unset($doc->_scripts[JURI::root(true) . '/administrator/templates/isis/js/template.js']);
+		unset($doc->_scripts[JURI::root(true) . '/media/jui/css/bootstrap-tooltip-extended.css']);
 		/*
 				unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery.min.js']);
 				unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery-noconflict.js']);

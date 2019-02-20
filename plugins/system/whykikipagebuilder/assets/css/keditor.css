@@ -872,3 +872,7 @@ label {
 .carousel-indicators {
   display:none;
 }
+
+.collapse {
+  height: auto !important;
+}

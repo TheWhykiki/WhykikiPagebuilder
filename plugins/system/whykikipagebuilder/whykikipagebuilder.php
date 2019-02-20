@@ -269,9 +269,11 @@ class plgSystemWhykikipagebuilder extends JPlugin
 			unset($doc->_scripts[JURI::root(true) . '/media/jui/css/bootstrap-tooltip-extended.css']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/jui/js/chosen.jquery.min.js']);
+
 
 		}
-
+		unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap.min.js']);
 		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/plugins/lightbox/css/lightbox.css');
 		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/lightbox/js/lightbox.js');
 	}
