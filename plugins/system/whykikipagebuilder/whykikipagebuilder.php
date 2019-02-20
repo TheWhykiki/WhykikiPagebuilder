@@ -69,6 +69,11 @@ class plgSystemWhykikipagebuilder extends JPlugin
 		$language = [
 			'photoSettings' =>	JText::_('PLG_SYSTEM_WHYPB_PHOTOSETTINGS'),
 			'videoSettings' => JText::_('PLG_SYSTEM_WHYPB_VIDEOSETTINGS'),
+			'downloadSettings' =>	JText::_('PLG_SYSTEM_WHYPB_DOWNLOADSETTINGS'),
+			'downloadSetDownload' =>	JText::_('PLG_SYSTEM_WHYPB_SETDOWNLOAD'),
+			'downloadTxtDownload' => JText::_('PLG_SYSTEM_WHYPB_TXTDOWNLOAD'),
+			'buttonTxtSettings' => JText::_('PLG_SYSTEM_WHYPB_BUTTONSETTINGS'),
+			'close' => JText::_('PLG_SYSTEM_WHYPB_CLOSE'),
 			'audioSettings' =>	JText::_('PLG_SYSTEM_WHYPB_AUDIOSETTINGS'),
 			'changePhoto' => JText::_('PLG_SYSTEM_WHYPB_CHANGE_PHOTO'),
 			'changeAudio' => JText::_('PLG_SYSTEM_WHYPB_CHANGE_AUDIO'),
@@ -255,6 +260,9 @@ class plgSystemWhykikipagebuilder extends JPlugin
 		{
 			$doc = JFactory::getDocument();
 			unset($doc->_scripts[JURI::root(true) . '/administrator/templates/isis/js/template.js']);
+
+			//unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap.min.js']);
+			//unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap-tooltip-extended.min.js']);
 		}
 	}
 

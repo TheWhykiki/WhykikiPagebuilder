@@ -151,6 +151,8 @@ class JFormFieldWhykikipagebuilder extends JFormField
 
 	protected function _loadFiles(){
 		$doc = JFactory::getDocument();
+
+
 		unset($doc->_scripts[JURI::root(true) . '/administrator/templates/isis/js/template.js']);
 		/*
 				unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery.min.js']);
@@ -178,37 +180,37 @@ class JFormFieldWhykikipagebuilder extends JFormField
 */
 		$templatePath = $this->_getTemplateData();
 
-		$doc->addStyleSheet('/plugins/system/whykikipagebuilder/assets/css/examples.css');
-		$doc->addStyleSheet('/plugins/system/whykikipagebuilder/assets/plugins/bootstrap4/css/bootstrap.min.css');
-		$doc->addStyleSheet('/templates/'.$templatePath.'/css/template.css');
+		//$doc->addStyleSheet('../templates/'.$templatePath.'/css/template.css');
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/css/examples.css');
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/plugins/bootstrap4/css/bootstrap.min.css');
 		$doc->addStyleSheet('http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css');
-		$doc->addStyleSheet('/plugins/system/whykikipagebuilder/assets/css/keditor.css');
-		$doc->addStyleSheet('/plugins/system/whykikipagebuilder/assets/css/keditor-components.css');
-		$doc->addStyleSheet('/plugins/system/whykikipagebuilder/assets/plugins/fontawesome5/css/all.css');
-		$doc->addStyleSheet('/plugins/system/whykikipagebuilder/code-prettify/src/prettify.css');
-		$doc->addStyleSheet('/plugins/system/whykikipagebuilder/assets/plugins/ace/theme-twilight.css');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/jquery-1.11.3/jquery-1.11.3.min.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/fontawesome5/fontawesome.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/bootstrap4/js/popper.min.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/bootstrap4/js/bootstrap.min.js');
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/css/keditor.css');
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/css/keditor-components.css');
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/plugins/fontawesome5/css/all.css');
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/code-prettify/src/prettify.css');
+		$doc->addStyleSheet('../plugins/system/whykikipagebuilder/assets/plugins/ace/theme-twilight.css');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/jquery-1.11.3/jquery-1.11.3.min.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/fontawesome5/js/fontawesome.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/bootstrap4/js/popper.min.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/bootstrap4/js/bootstrap.min.js');
 		//$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/jquery.nicescroll-3.6.6/jquery.nicescroll.min.js');
 		//$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/ckeditor-4.5.6/ckeditor.js');
 		//$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/ckeditor-4.5.6/adapters/jquery.js');
 
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/ckeditor/ckeditor.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/ckeditor/adapters/jquery.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/ckeditor/ckeditor.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/ckeditor/adapters/jquery.js');
 
 		$doc->addScript('http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/keditor.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/keditor.js');
 
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/keditor-components.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/code-prettify/src/prettify.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/js-beautify-1.7.5/js/lib/beautify.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/js-beautify-1.7.5/js/lib/beautify-html.js');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/ace/ace.js', 'module');
-		$doc->addScript('/plugins/system/whykikipagebuilder/assets/plugins/custom.js');
-
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/keditor-components.js');
+		//$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/code-prettify/src/prettify.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/js-beautify-1.7.5/js/lib/beautify.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/js-beautify-1.7.5/js/lib/beautify-html.js');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/ace/ace.js', 'module');
+		$doc->addScript('../plugins/system/whykikipagebuilder/assets/plugins/custom.js');
+		//var_dump($doc);die;
 
 	}
 

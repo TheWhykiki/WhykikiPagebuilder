@@ -13,9 +13,12 @@
 const pagebuilderParams = Joomla.getOptions('pagebuilderParams');
 var txtPhotoSettings = pagebuilderParams['photoSettings'];
 var txtChangePhoto = pagebuilderParams['changePhoto'];
-
+var txtDownloadSettings = pagebuilderParams['downloadSettings'];
+var txtSetDownload = pagebuilderParams['downloadSetDownload'];
+var txtDownload = pagebuilderParams['downloadTxtDownload'];
 var txtAudioSettings = pagebuilderParams['photoSettings'];
 var txtAudioFile = pagebuilderParams['changeAudio'];
+var txtClose = pagebuilderParams['close'];
 
 var txtAutoplay = pagebuilderParams['autoplay'];
 var txtControls = pagebuilderParams['controls'];
@@ -583,6 +586,197 @@ var txtVideoSettings = pagebuilderParams['videoSettings'];
         }
     };
     
+})(jQuery);
+
+
+/***************************************************************************************************/
+/* Download */
+/***************************************************************************************************/
+
+(function ($) {
+
+    var KEditor = $.keditor;
+    var flog = KEditor.log;
+
+    KEditor.components['download'] = {
+        init: function (contentArea, container, component, keditor) {
+            flog('init "download" component', component);
+
+            var componentContent = component.children('.keditor-component-content');
+
+        },
+
+        settingEnabled: true,
+
+        settingTitle: txtDownloadSettings,
+
+        initSettingForm: function (form, keditor) {
+            flog('initSettingForm "photo" component');
+
+            var self = this;
+            var options = keditor.options;
+            $('.formSlider').remove();
+            form.append(
+                '<form class="form-horizontal">' +
+                '   <div class="form-group">' +
+                '       <div class="col-sm-12">' +
+                '           <button type="button" class="btn btn-block btn-primary" id="download-edit">' + txtSetDownload + '</button>' +
+                '           <input type="file" style="display: none" />' +
+                '       </div>' +
+                '   </div>' +
+                '   <div class="form-group">' +
+                '       <label for="photo-style" class="col-sm-12">Settings</label>' +
+                '       <div class="col-sm-12">' +
+                // '           <select id="photo-style" class="form-control">' +
+                // '               <option value="">Non22e</option>' +
+                //'               <option value="autoWidth">Autowidth</option>' +
+                //'           </select>' +
+                '       </div>' +
+                '   </div>' +
+                '</form>'
+            );
+
+
+            function getJCEUrl() {
+                var head = document.head.innerHTML;
+                var position = head.search(/option=com_jce&amp;view=editor&amp;task=loadlanguages&amp;lang=en&amp;context=/);
+                var cuttedURL = head.substring(position + 78, position + 120);
+                var contentID = cuttedURL.substr(0,2);
+                var endLength = cuttedURL.length;
+                var jceToken = cuttedURL.substr(7,endLength - 10);
+
+                var jceURL = 'index.php?option=com_jce&view=editor&plugin=filemanager&context=' + contentID +'&' + jceToken + '=1';
+                $('#mediaManagerIframe').attr('src',jceURL);
+
+                //console.log(n);
+                return jceURL;
+            }
+            var newURL = getJCEUrl();
+
+            var modal = '<div class="modal fade" id="myModal" role="dialog">' +
+                '    <div class="modal-dialog">' +
+                '      <div class="modal-content">' +
+                '        <div class="modal-body">' +
+                '          <p><iframe id="mediaManagerIframe" src="' + newURL +'"></iframe></p>' +
+                '        </div> ' +
+                '      </div> ' +
+                '       ' +
+                '    </div> ' +
+                '  </div> ' +
+                '   ' +
+                '</div>'
+            var downloadEdit = form.find('#download-edit');
+            var fileInput = downloadEdit.next();
+
+            downloadEdit.on('click', function (e) {
+
+                // Add Joomla Media Manager
+                /**********************************/
+
+
+                $('body').append(modal);
+                $("#myModal").modal();
+                $('iframe').addClass('testIframe');
+
+                // Get the iframe contents
+                var downloadPath;
+                $("#mediaManagerIframe").load(function(){
+
+                    // Get the input URL where image path is set
+
+                    var inputURL = $("#mediaManagerIframe").contents().find("body").find("#href");
+                    $("#mediaManagerIframe").contents().find("body").find(".button-save-selected").css('display','none');
+                    $("#mediaManagerIframe").contents().find("body").find(".button-cancel").css('display','none');
+                    $("#mediaManagerIframe").contents().find("#browser-actions").prepend('<button class="btn btn-primary  downloadButton">' + txtSetDownload +'</button>');
+                    $("#mediaManagerIframe").contents().find("#browser-actions").prepend('<button class="btn btn-primary downloadClose">' + txtClose +'</button>');
+                    var downloadButton = $("#mediaManagerIframe").contents().find("body").find(".downloadButton");
+                    var downloadClose = $("#mediaManagerIframe").contents().find("body").find(".downloadClose");
+
+
+                    function watchTextbox() {
+
+                        var txtInput = inputURL;
+                        var lastValue = txtInput.data('lastValue');
+                        var currentValue = txtInput.val();
+                        if (lastValue != currentValue) {
+                            console.log('Value changed from ' + lastValue + ' to ' + currentValue);
+                            txtInput.data('lastValue', currentValue);
+                            downloadPath = currentValue;
+                        }
+                    }
+                    setInterval(watchTextbox, 100);
+
+                    //
+                    downloadButton.on('click', function () {
+
+                        // Build Download HTML Structure
+                        //**********************
+
+                        var dotPosition = downloadPath.indexOf(".");
+                        var downloadFileName = downloadPath.substring(0, dotPosition);
+                        var downloadFileType = downloadPath.substring(downloadPath.length - 3, downloadPath.length);
+                        var fileTypeIcon;
+                        var fileSize =  $("#mediaManagerIframe").contents().find("body").find(".uk-comment-header").find('#info-size').text();
+                        fileSize = fileSize.replace("Size: ", "");
+
+                        var slashPosition = downloadPath.lastIndexOf("/");
+                        var cleanedFilename = downloadPath.substring(slashPosition + 1, downloadPath.length);
+
+
+                        switch(downloadFileType) {
+                            case 'png':
+                                fileTypeIcon = 'file-image-o';
+                                break;
+                            case 'jpg':
+                                fileTypeIcon = 'file-image-o';
+                                break;
+                            case 'gif':
+                                fileTypeIcon = 'file-image-o';
+                                break;
+                            case 'pdf':
+                                fileTypeIcon = 'file-pdf-o';
+                                break;
+                            default:
+                                fileTypeIcon = 'file-o';
+                        }
+
+                        var html = '<div class="downloadIcon"><i class="fa fa-' + fileTypeIcon + '"></i></div><div class="downloadInfo"><span class="downloadFileName">' + cleanedFilename + ' (' + fileSize + ') ' + '</span></div><div class="downloadButtonContainer"><a href="' + downloadPath + '" class="btn btn-primary btnDownload">' + txtDownload + '</a></div>';
+
+
+
+                        $('.download-panel').html( html);
+
+                        e.preventDefault();
+                        $("#myModal").modal('hide');
+                        $(".modal-backdrop").remove();
+                        $("#myModal").remove();
+                        $("body").removeClass('modal-open');
+                        $(document).trigger('contentchange');
+                    });
+
+                    downloadClose.on('click', function () {
+                        e.preventDefault();
+                        $("#myModal").modal('hide');
+                        $(".modal-backdrop").remove();
+                        $("#myModal").remove();
+                        $("body").removeClass('modal-open');
+                        $(document).trigger('contentchange');
+                    });
+                });
+
+                e.preventDefault();
+
+            });
+
+
+        },
+
+        showSettingForm: function (form, component, keditor) {
+            flog('showSettingForm "download" component', component);
+
+        }
+    };
+
 })(jQuery);
 
 
